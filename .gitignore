@@ -1,0 +1,11 @@
+*.pyc
+*~
+__pycache__
+myvenv
+backup
+.DS_Store
+data.py
+teletr.rar
+test_tele.py
+test_tele2.py
+
