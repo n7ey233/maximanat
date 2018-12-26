@@ -1,9 +1,18 @@
 """
 maximanat.pythonanywhere.com
 vlad911as123
+
+steps to deploy:
+add allowed url to settings
+git clone
+add virtualenv
+start virtualenv
 pip upgrade
 install django
 install requests
+pythonanywhere:
+    add virualenv
+    add wsgi
 """
 
 from django.shortcuts import render
