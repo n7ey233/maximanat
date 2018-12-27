@@ -44,6 +44,13 @@ def main(request):
             return_page = 'app/contact.html'
         elif q == 'product_list':
             return_page = 'app/product_list.html'
+            page_data['categories'] = category.objects.all()
+            try:
+                current_category = category.objects.get(name = request.GET.get('cat', ''))
+                page_data['current_category'] = current_category
+                page_data['products'] = product.objects.filter(category = current_category)
+            except:
+                page_data['products'] = product.objects.all()
         page_data['nav_bar'] = q
     #tut tol'ko otobrazhaem vse posti iz lichnogo dnevnika
     return render(request, return_page, page_data)
@@ -51,16 +58,26 @@ def product_view(request):
     return_page = 'app/404.html'
     page_data = dict()
     if request.GET.get('q', '') != '':#if not nothing
-        return_page = 'app/product_view.html'
+        try:
+            obj = product.objects.get(pk=request.GET.get('q', ''))
+            page_data['obj'] = obj 
+            page_data['categories'] = category.objects.all()
+            return_page = 'app/product_view.html'
+        except: None
     return render(request, return_page, page_data)
 def request_contact(request):
     if request.method == 'POST':
         try:
-            text = 'Пришло обращение. \n'
+            try:
+                text = 'Поступила заявка\n'
+                text+= '\nИмя: '+str(request.POST['product_name'])
+            except:
+                text = 'Пришло обращение. \n'
             text+= '\nИмя: '+str(request.POST['name'])
             text+= '\nНомер: '+str(request.POST['phone'])
             text+= '\nПочта: '+str(request.POST['email'])
             text+= '\nСообщение: '+str(request.POST['message'])
+            print(request.POST)
             send_notification_telegram(text)
         except: None
         return render(request, 'app/thanks.html', {})
