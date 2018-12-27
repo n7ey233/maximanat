@@ -70,7 +70,7 @@ def request_contact(request):
         try:
             try:
                 text = 'Поступила заявка\n'
-                text+= '\nИмя: '+str(request.POST['product_name'])
+                text+= '\nТовар: '+str(request.POST['product_name'])
             except:
                 text = 'Пришло обращение. \n'
             text+= '\nИмя: '+str(request.POST['name'])
